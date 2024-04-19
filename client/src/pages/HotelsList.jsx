@@ -67,7 +67,7 @@ const HotelsList = () => {
         getPlacesByLatLng('hotels', coordinates.lat, coordinates.lng, {...filterParams}, source)
             .then(data => {
                 // Data is received anf set to 'hotels' state filtering out items without the 'name' property
-                setHotels(data.filter(item => item.name));
+                setHotels(data?.filter(item => item.name));
 
                 // Loading state set back to false to stop loading
                 setIsLoading(false);

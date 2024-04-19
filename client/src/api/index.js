@@ -33,6 +33,7 @@ export const getPlacesByBounds = async (type, sw, ne, source) => {
 export const getPlacesByLatLng = async (type, lat, lng, params, source) => {
   try {
     const { data: { data } } = await axios.get(`https://travel-advisor.p.rapidapi.com/${type}/list-by-latlng`, {
+      //https://travel-advisor.p.rapidapi.com/hotels/list-by-latlng
       params: {
         latitude: lat,
         longitude: lng,
@@ -41,6 +42,33 @@ export const getPlacesByLatLng = async (type, lat, lng, params, source) => {
       headers: {
         'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com',
         'X-RapidAPI-Key': import.meta.env.VITE_TRAVEL_API_KEY
+      }
+    }, { cancelToken: source.token });
+
+    // Data is returned once resolved
+    console.log(data);
+    return data;
+  } catch (error) {
+    if (axios.isCancel(error)){
+      console.log('axios Call Cancelled!');
+    } else {
+      throw error
+    }
+  }
+}
+
+export const getHotels = async (type, lat, lng, params, source) => {
+  try {
+    const { data: { data } } = await axios.get(`https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchHotelsByLocation`, {
+      //https://travel-advisor.p.rapidapi.com/hotels/list-by-latlng
+      params: {
+        latitude: lat,
+        longitude: lng,
+        ...params
+      },
+      headers: {
+        'X-RapidAPI-Key': '9dba1e5e48msh552c19a0b04b480p1576bdjsn23179a2a666c',
+        'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
       }
     }, { cancelToken: source.token });
 
